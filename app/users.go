@@ -1,10 +1,10 @@
-package internal
+package app
 
 import (
 	"errors"
 	"fmt"
 
-	"github.com/mca312/jackbox/server/internal/data"
+	"github.com/mca312/jackbox/server/app/data"
 )
 
 type User struct {

@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mca312/jackbox/server/internal"
+	"github.com/mca312/jackbox/server/app"
 	"gopkg.in/yaml.v3"
 )
 
@@ -75,7 +75,7 @@ func loadConfig() *Config {
 	}
 
 	for _, u := range config.Users {
-		internal.Register(internal.User{Email: u})
+		app.Register(app.User{Email: u})
 	}
 
 	return &config

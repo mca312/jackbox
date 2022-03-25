@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mca312/jackbox/server/internal"
+	"github.com/mca312/jackbox/server/app"
 )
 
 type UserModel struct {
@@ -23,12 +23,12 @@ func RegisterHandler(c *gin.Context) {
 	}
 
 	// check email exists and has one @ symbol
-	if !internal.IsValidEmail(registerUser.Email) {
+	if !app.IsValidEmail(registerUser.Email) {
 		c.JSON(http.StatusBadRequest, "/register - invalid email")
 		return
 	}
 
-	if err := internal.Register(internal.User(registerUser)); err != nil {
+	if err := app.Register(app.User(registerUser)); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -46,7 +46,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	user, err := internal.Login(internal.User(loginUser))
+	user, err := app.Login(app.User(loginUser))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -69,7 +69,7 @@ func UserHandler(c *gin.Context) {
 		return
 	}
 
-	user, err := internal.GetUser(id)
+	user, err := app.GetUser(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, fmt.Sprintf("Invalid request for id: %d", id))
 		return
