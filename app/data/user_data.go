@@ -6,9 +6,21 @@ import (
 )
 
 type UserDataBase interface {
-	AddUser() error
-	GetUserByEmail() *DataUser
-	GetUserById() *DataUser
+	AddUser(DataUser) error
+	GetUserByEmail(string) *DataUser
+	GetUserById(int64) *DataUser
+}
+
+type memoryUserDB struct {
+	id        int64
+	testUsers map[int64]*DataUser
+}
+
+func NewMemoryUserDB() *memoryUserDB {
+	return &memoryUserDB{
+		id:        0,
+		testUsers: map[int64]*DataUser{},
+	}
 }
 
 type DataUser struct {
@@ -16,13 +28,10 @@ type DataUser struct {
 	Id    int64
 }
 
-var testUsers = map[int64]*DataUser{}
-var id int64 = 0
-
 // GetUserByEmail simulates DB call
-func GetUserByEmail(email string) *DataUser {
+func (m *memoryUserDB) GetUserByEmail(email string) *DataUser {
 	var user *DataUser
-	for _, v := range testUsers {
+	for _, v := range m.testUsers {
 		if v.Email == email {
 			user = v
 		}
@@ -32,19 +41,20 @@ func GetUserByEmail(email string) *DataUser {
 }
 
 // GetUserById simulates DB call
-func GetUserById(id int64) *DataUser {
-	return testUsers[id]
+func (m *memoryUserDB) GetUserById(id int64) *DataUser {
+	return m.testUsers[id]
 }
 
-func AddUser(user DataUser) error {
-	exists := GetUserByEmail(user.Email)
+func (m *memoryUserDB) AddUser(user DataUser) error {
+	exists := m.GetUserByEmail(user.Email)
 	if exists != nil {
 		return errors.New(fmt.Sprintf("User exists during Add User: %s", user.Email))
 	}
 
 	fmt.Printf("Added user: %s\n", user.Email)
-	id = id + 1
-	user.Id = id
-	testUsers[id] = &user
+	// increment our Id
+	m.id = m.id + 1
+	user.Id = m.id
+	m.testUsers[m.id] = &user
 	return nil
 }

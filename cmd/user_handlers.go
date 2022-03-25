@@ -14,7 +14,8 @@ type UserModel struct {
 	Id    int64  `json:"id"`
 }
 
-func RegisterHandler(c *gin.Context) {
+// RegisterHandler verifies the request and registers the user
+func (m *Manager) RegisterHandler(c *gin.Context) {
 	var registerUser UserModel
 
 	if err := c.BindJSON(&registerUser); err != nil {
@@ -28,7 +29,7 @@ func RegisterHandler(c *gin.Context) {
 		return
 	}
 
-	if err := app.Register(app.User(registerUser)); err != nil {
+	if err := m.Register(app.User(registerUser)); err != nil {
 		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -38,7 +39,8 @@ func RegisterHandler(c *gin.Context) {
 	return
 }
 
-func LoginHandler(c *gin.Context) {
+// LoginHandler verifies the request and logs the user in
+func (m *Manager) LoginHandler(c *gin.Context) {
 	var loginUser UserModel
 
 	if err := c.BindJSON(&loginUser); err != nil {
@@ -46,7 +48,7 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	user, err := app.Login(app.User(loginUser))
+	user, err := m.Login(app.User(loginUser))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
@@ -56,7 +58,8 @@ func LoginHandler(c *gin.Context) {
 	return
 }
 
-func UserHandler(c *gin.Context) {
+// UserHandler verifies the request and returns a user object
+func (m *Manager) UserHandler(c *gin.Context) {
 	ident := c.Param("user")
 	if ident == "" {
 		c.JSON(http.StatusBadRequest, "Invalid request")
@@ -69,7 +72,7 @@ func UserHandler(c *gin.Context) {
 		return
 	}
 
-	user, err := app.GetUser(id)
+	user, err := m.GetUser(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, fmt.Sprintf("Invalid request for id: %d", id))
 		return

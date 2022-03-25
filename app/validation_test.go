@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestIsValidEmail(t *testing.T) {
+func TestValidation_IsValidEmail(t *testing.T) {
 	t.Run("email with one @ is valid", func(t *testing.T) {
 		r := IsValidEmail("valid@email")
 		assert.True(t, r)
