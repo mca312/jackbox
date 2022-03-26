@@ -1,6 +1,29 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
+import { store } from "./store";
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      store,
+      loggedIn: store.loggedIn(),
+    };
+  },
+  methods: {
+    logout() {
+      store.clearUserId();
+      this.$router.push("/login");
+    },
+  },
+  watch: {
+    $route() {
+      this.loggedIn = store.loggedIn();
+    },
+  },
+};
 </script>
 
 <template>
@@ -8,22 +31,30 @@ import HelloWorld from "@/components/HelloWorld.vue";
     <img
       alt="Vue logo"
       class="logo"
-      src="@/assets/logo.svg"
-      width="125"
+      src="@/assets/jackbox.png"
+      width="196"
       height="125"
     />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
+      <HelloWorld msg="Michael Angellotti" />
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <span v-if="!loggedIn">
+          <RouterLink to="/login">Login</RouterLink>
+          <RouterLink to="/register">Register</RouterLink>
+        </span>
+        <span v-else>
+          <RouterLink to="/dashboard">Dashboard</RouterLink>
+          <a href="#" v-on:click.prevent="logout()">Logout</a>
+        </span>
       </nav>
     </div>
   </header>
 
-  <RouterView />
+  <div class="row m-4">
+    <RouterView />
+  </div>
 </template>
 
 <style>

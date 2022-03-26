@@ -8,9 +8,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/mca312/jackbox/server/app"
 	"gopkg.in/yaml.v3"
@@ -73,7 +75,8 @@ func setupServer(cfg *Config) (*Server, error) {
 
 	// load test data
 	for _, u := range cfg.Users {
-		manager.Register(app.User{Email: u})
+		configUser := strings.Split(u, ":")
+		manager.Register(app.User{Email: configUser[0], Name: configUser[1]})
 	}
 
 	router := setupRouter(manager)
@@ -91,6 +94,10 @@ func setupServer(cfg *Config) (*Server, error) {
 // setupRouter defines our routes
 func setupRouter(manager *Manager) *gin.Engine {
 	r := gin.New()
+	config := cors.DefaultConfig()
+	config.AllowAllOrigins = true // not safe for production
+	r.Use(cors.New(config))
+	r.OPTIONS("/*cors", func(c *gin.Context) {})
 
 	r.GET("/healthcheck", func(c *gin.Context) {
 		c.JSON(200, gin.H{"health": "check"})
