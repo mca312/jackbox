@@ -1,4 +1,4 @@
 port: 8448
 users:
-  - angellotti@gmail.com
-  - fake@user.com
+  - angellotti@gmail.com:Mike Angellotti
+  - fake@user.com:Fake User

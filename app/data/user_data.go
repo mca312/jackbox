@@ -6,7 +6,7 @@ import (
 )
 
 type UserDataBase interface {
-	AddUser(DataUser) error
+	AddUser(DataUser) (*DataUser, error)
 	GetUserByEmail(string) *DataUser
 	GetUserById(int64) *DataUser
 }
@@ -26,6 +26,7 @@ func NewMemoryUserDB() *memoryUserDB {
 type DataUser struct {
 	Email string
 	Id    int64
+	Name  string
 }
 
 // GetUserByEmail simulates DB call
@@ -45,10 +46,10 @@ func (m *memoryUserDB) GetUserById(id int64) *DataUser {
 	return m.testUsers[id]
 }
 
-func (m *memoryUserDB) AddUser(user DataUser) error {
+func (m *memoryUserDB) AddUser(user DataUser) (*DataUser, error) {
 	exists := m.GetUserByEmail(user.Email)
 	if exists != nil {
-		return errors.New(fmt.Sprintf("User exists during Add User: %s", user.Email))
+		return nil, errors.New(fmt.Sprintf("User exists during Add User: %s", user.Email))
 	}
 
 	fmt.Printf("Added user: %s\n", user.Email)
@@ -56,5 +57,5 @@ func (m *memoryUserDB) AddUser(user DataUser) error {
 	m.id = m.id + 1
 	user.Id = m.id
 	m.testUsers[m.id] = &user
-	return nil
+	return &user, nil
 }

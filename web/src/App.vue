@@ -1,6 +1,23 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "@/components/HelloWorld.vue";
+import { store } from "./store";
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      store,
+    };
+  },
+  methods: {
+    logout() {
+      store.clearUserId();
+      this.$router.push("/");
+    },
+  },
+};
 </script>
 
 <template>
@@ -8,17 +25,23 @@ import HelloWorld from "@/components/HelloWorld.vue";
     <img
       alt="Vue logo"
       class="logo"
-      src="@/assets/logo.svg"
-      width="125"
+      src="@/assets/jackbox.png"
+      width="196"
       height="125"
     />
 
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
+      <HelloWorld msg="Michael Angellotti" />
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <span v-if="!store.loggedIn()">
+          <RouterLink to="/login">Login</RouterLink>
+          <RouterLink to="/register">Register</RouterLink>
+        </span>
+        <span v-else>
+          <RouterLink to="/dashboard">Dashboard</RouterLink>
+          <a href="#" v-on:click.prevent="logout()">Logout</a>
+        </span>
       </nav>
     </div>
   </header>
@@ -82,6 +105,46 @@ nav a {
 }
 
 nav a:first-of-type {
+  border: 0;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+}
+
+input,
+textarea,
+select,
+.select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  font: inherit;
+  border: 1px solid #c4c1c1;
+  height: 34px;
+  -webkit-appearance: none;
+  border-radius: 5px;
+}
+
+.btn {
+  display: inline-block;
+  min-width: 60px;
+  padding: 6px 10px;
+  line-height: 1.3em;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  color: #fff;
+  background: #555;
+  border-radius: 5px;
+  cursor: pointer;
   border: 0;
 }
 

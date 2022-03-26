@@ -86,11 +86,12 @@ func TestUserData_AddUser(t *testing.T) {
 		assert.Nil(t, user)
 
 		// add user and verify no error
-		err := db.AddUser(DataUser{Email: validEmail})
+		user, err := db.AddUser(DataUser{Email: validEmail})
+		assert.NotNil(t, user)
 		assert.Nil(t, err)
 
 		// add user again and verify error exists
-		err = db.AddUser(DataUser{Email: validEmail})
+		user, err = db.AddUser(DataUser{Email: validEmail})
 		assert.NotNil(t, err)
 	})
 }

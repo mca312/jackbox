@@ -1,5 +1,5 @@
 <script>
-import { postLogin } from "../api/api";
+import { postRegistration } from "../api/api";
 import { store } from "../store";
 
 export default {
@@ -10,10 +10,12 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.error = "";
       let user = {
         email: this.email,
+        name: this.name,
       };
-      postLogin(user)
+      postRegistration(user)
         .then((resp) => {
           store.saveUserId(resp.id);
           this.$router.push("/");
@@ -32,12 +34,18 @@ export default {
 
 <template>
   <div class="frame">
-    <h2>Login</h2>
+    <h2>Register</h2>
     <form @submit.prevent="onSubmit">
-      <label>Email:</label>
-      <input v-model="email" required placeholder="your@email.com" />
-      <button class="btn" type="submit">Login</button>
-      <span v-if="error">{{ error }}</span>
+      <div>
+        <label>Name:</label>
+        <input v-model="name" required />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input v-model="email" required placeholder="your@email.com" />
+        <span v-if="error">{{ error }}</span>
+      </div>
+      <button class="btn" type="submit">Regsiter</button>
     </form>
   </div>
 </template>
