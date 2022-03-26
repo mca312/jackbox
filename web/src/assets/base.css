@@ -18,37 +18,21 @@
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
-  --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+  --vt-c-text-dark-2: rgba(215, 215, 215, 0.64);
 }
 
-/* semantic color variables for this project */
 :root {
-  --color-background: var(--vt-c-white);
-  --color-background-soft: var(--vt-c-white-soft);
-  --color-background-mute: var(--vt-c-white-mute);
+  --color-background: var(--vt-c-black);
+  --color-background-soft: var(--vt-c-black-soft);
+  --color-background-mute: var(--vt-c-black-mute);
 
-  --color-border: var(--vt-c-divider-light-2);
-  --color-border-hover: var(--vt-c-divider-light-1);
+  --color-border: var(--vt-c-divider-dark-2);
+  --color-border-hover: var(--vt-c-divider-dark-1);
 
-  --color-heading: var(--vt-c-text-light-1);
-  --color-text: var(--vt-c-text-light-1);
-
-  --section-gap: 160px;
+  --color-heading: var(--vt-c-text-dark-1);
+  --color-text: var(--vt-c-text-dark-2);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
-
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-}
 
 *,
 *::before,
@@ -61,7 +45,7 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--color-text) !important;
   background: var(--color-background);
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;

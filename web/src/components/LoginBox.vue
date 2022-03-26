@@ -6,7 +6,13 @@ export default {
   data() {
     return {
       error: "",
+      email: "",
     };
+  },
+  computed: {
+    classObject() {
+      return this.error.length > 0 ? "is-invalid" : "";
+    },
   },
   methods: {
     onSubmit() {
@@ -16,7 +22,7 @@ export default {
       postLogin(user)
         .then((resp) => {
           store.saveUserId(resp.id);
-          this.$router.push("/");
+          this.$router.push("/dashboard");
         })
         .catch((err) => {
           if (err?.error) {
@@ -31,19 +37,27 @@ export default {
 </script>
 
 <template>
-  <div class="frame">
+  <div class="col">
     <h2>Login</h2>
     <form @submit.prevent="onSubmit">
-      <label>Email:</label>
-      <input v-model="email" required placeholder="your@email.com" />
-      <button class="btn" type="submit">Login</button>
-      <span v-if="error">{{ error }}</span>
+      <div class="form-floating mb-3">
+        <input
+          id="emailInput"
+          class="form-control"
+          :class="classObject"
+          aria-describedby="emailValidation"
+          v-model="email"
+          required
+          placeholder="your@email.com"
+        />
+        <label for="emailInput">Email:</label>
+        <div id="emailValidation" class="invalid-feedback">
+          {{ error }}
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Login</button>
     </form>
   </div>
 </template>
 
-<style scoped>
-.frame {
-  border: 1px solid gray;
-}
-</style>
+<style scoped></style>

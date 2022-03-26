@@ -8,6 +8,11 @@ export default {
       error: "",
     };
   },
+  computed: {
+    classObject() {
+      return this.error.length > 0 ? "is-invalid" : "";
+    },
+  },
   methods: {
     onSubmit() {
       this.error = "";
@@ -33,25 +38,36 @@ export default {
 </script>
 
 <template>
-  <div class="frame">
+  <div class="col">
     <h2>Register</h2>
     <form @submit.prevent="onSubmit">
-      <div>
-        <label>Name:</label>
-        <input v-model="name" required />
+      <div class="form-floating mb-3">
+        <input
+          id="nameInput"
+          class="form-control"
+          aria-describedby="nameValidation"
+          v-model="name"
+          required
+        />
+        <label for="nameInput">Name:</label>
       </div>
-      <div>
-        <label>Email:</label>
-        <input v-model="email" required placeholder="your@email.com" />
-        <span v-if="error">{{ error }}</span>
+      <div class="form-floating mb-3">
+        <input
+          id="emailInput"
+          class="form-control"
+          :class="classObject"
+          aria-describedby="emailValidation"
+          v-model="email"
+          required
+        />
+        <label for="emailInput">Email:</label>
+        <div id="emailValidation" class="invalid-feedback">
+          {{ error }}
+        </div>
       </div>
-      <button class="btn" type="submit">Regsiter</button>
+      <button class="btn btn-primary" type="submit">Regsiter</button>
     </form>
   </div>
 </template>
 
-<style scoped>
-.frame {
-  border: 1px solid gray;
-}
-</style>
+<style scoped></style>

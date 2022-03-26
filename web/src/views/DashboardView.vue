@@ -12,7 +12,6 @@ export default {
 
   created() {
     getUser(store.getUserId()).then((resp) => {
-      console.log(resp);
       this.user = resp;
     });
   },
@@ -20,19 +19,13 @@ export default {
 </script>
 
 <template>
-  <div class="frame">
+  <div class="col">
     <h2>Dashboard</h2>
-    <div>{{ this.user.name }}</div>
-    <div>{{ this.user.email }}</div>
+    <div>Name: {{ this.user.name }}</div>
+    <div>Email: {{ this.user.email }}</div>
   </div>
 </template>
 
 <style scoped>
-.frame {
-  border: 1px solid gray;
-}
 
-.error-input {
-  border: 1px solid red;
-}
 </style>

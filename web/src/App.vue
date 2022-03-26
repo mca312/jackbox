@@ -9,12 +9,18 @@ export default {
   data() {
     return {
       store,
+      loggedIn: store.loggedIn(),
     };
   },
   methods: {
     logout() {
       store.clearUserId();
-      this.$router.push("/");
+      this.$router.push("/login");
+    },
+  },
+  watch: {
+    $route() {
+      this.loggedIn = store.loggedIn();
     },
   },
 };
@@ -34,7 +40,7 @@ export default {
       <HelloWorld msg="Michael Angellotti" />
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <span v-if="!store.loggedIn()">
+        <span v-if="!loggedIn">
           <RouterLink to="/login">Login</RouterLink>
           <RouterLink to="/register">Register</RouterLink>
         </span>
@@ -46,7 +52,9 @@ export default {
     </div>
   </header>
 
-  <RouterView />
+  <div class="row m-4">
+    <RouterView />
+  </div>
 </template>
 
 <style>
@@ -105,46 +113,6 @@ nav a {
 }
 
 nav a:first-of-type {
-  border: 0;
-}
-
-label {
-  display: block;
-  margin-top: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  padding: 0;
-}
-
-input,
-textarea,
-select,
-.select {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font: inherit;
-  border: 1px solid #c4c1c1;
-  height: 34px;
-  -webkit-appearance: none;
-  border-radius: 5px;
-}
-
-.btn {
-  display: inline-block;
-  min-width: 60px;
-  padding: 6px 10px;
-  line-height: 1.3em;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 400;
-  text-decoration: none;
-  text-align: center;
-  text-transform: uppercase;
-  color: #fff;
-  background: #555;
-  border-radius: 5px;
-  cursor: pointer;
   border: 0;
 }
 

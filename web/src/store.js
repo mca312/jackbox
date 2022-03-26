@@ -9,7 +9,6 @@ export const store = reactive({
     return window.localStorage.getItem("userId") || this.userId;
   },
   clearUserId() {
-    console.log('here');
     window.localStorage.removeItem("userId");
   },
   loggedIn() {
