@@ -1,0 +1,21 @@
+FROM golang:1.18-alpine3.15 as build
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY . .
+
+RUN GOOS=linux go build -o ./bin/server ./cmd/*.go
+
+FROM alpine:3.15
+
+COPY --from=build /app/bin/server /app/bin/server
+COPY --from=build /app/config.yml /app
+
+EXPOSE 8448
+
+WORKDIR "/app/bin"
+CMD [ "./server" ]
