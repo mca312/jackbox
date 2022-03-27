@@ -83,7 +83,7 @@ func setupServer(cfg *Config) (*Server, error) {
 
 	srv := Server{
 		&http.Server{
-			Addr:    fmt.Sprintf("localhost:%d", cfg.Port),
+			Addr:    fmt.Sprintf(":%d", cfg.Port),
 			Handler: router,
 		},
 	}
