@@ -7,3 +7,5 @@ start:
 stop:
 	docker compose down
 
+tests:
+	go test ./...
