@@ -41,7 +41,7 @@ Two test users are automatically created with the email `angellotti@gmail.com` a
 
 ## Example
 
-Note: There is no real authentication. I determin logged in by if the local storage has a valid user id. (I only have so much time in my life). If the user id is set, you can go to the dashboard. If you go to the dashboard with an id that hasn't been registered it will unset it and redirect to the home/login page.
+Note: There is no real authentication. I determine logged in by if the local storage has a valid user id. (I only have so much time in my life). If the user id is set, you can go to the dashboard. If you go to the dashboard with an id that hasn't been registered it will unset it and redirect to the home/login page.
 
 After installing, navigate to [http://localhost:8447](http://localhost:8447).
 
